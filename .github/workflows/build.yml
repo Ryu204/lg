@@ -1,0 +1,127 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+
+  build:
+
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        platform: 
+          - { name: Ubuntu with gcc,   os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc,                version: gcc --version && g++ --version && make --version }
+          # - { name: Ubuntu with clang, os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang,          version: clang --version && clang++ --version && make --version }
+          # - { name: Windows with gcc,  os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -GNinja,        version: gcc --version && g++ --version && ninja --version}
+          # - { name: Windows with clang, os: windows-latest,  flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -GNinja,  version: clang --version && clang++ --version && ninja --version}
+          - { name: Windows with MSVC, os: windows-latest,   flags: -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -GNinja,          version: ninja --version && cl}
+        buildType: ["Debug", "Release"]
+
+    name: Build on ${{ matrix.platform.name }} - ${{ matrix.buildType }}
+
+    runs-on: ${{ matrix.platform.os }}
+
+    steps:
+
+    - name: Install SFML dependencies (Linux)
+      if: matrix.platform.os == 'ubuntu-latest'
+      run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+
+    - name: Install MinGW (Windows)
+      if: matrix.platform.os == 'windows-latest' && !contains(matrix.platform.name, 'MSVC')
+      run: |
+        curl -Lo mingw64.zip https://github.com/brechtsanders/winlibs_mingw/releases/download/12.2.0-16.0.0-10.0.0-msvcrt-r5/winlibs-x86_64-posix-seh-gcc-12.2.0-llvm-16.0.0-mingw-w64msvcrt-10.0.0-r5.zip
+        unzip -qq -d "C:\Program Files" mingw64.zip
+        echo "C:\Program Files\mingw64\bin" >> $GITHUB_PATH
+    
+    - name: Install Ninja (Windows)
+      if: matrix.platform.os == 'windows-latest'
+      uses: seanmiddleditch/gha-setup-ninja@master
+
+    - name: Install MSVC
+      if: contains(matrix.platform.name, 'MSVC')
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Check tools version
+      run: ${{ matrix.platform.version }} 
+
+    - name: Checkout source
+      uses: actions/checkout@v4
+    
+    - name: Configure
+      run: |
+        git submodule update --init --recursive --remote
+        cmake --preset base ${{ matrix.platform.flags }} -DCMAKE_BUILD_TYPE=${{ matrix.buildType }}
+    
+    - name: Build
+      run: cmake --build build/base -j
+  
+  lint:
+
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        platform: 
+          - { name: Ubuntu with gcc,    os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc,               version: gcc --version && g++ --version && make --version }
+          # - { name: Ubuntu with clang,  os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang,         version: clang --version && clang++ --version && make --version}
+          # - { name: Windows with gcc,   os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -GNinja,       version: gcc --version && g++ --version && ninja --version}
+          # - { name: Windows with clang, os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -GNinja, version: clang --version && clang++ --version && ninja --version}
+          - { name: Windows with MSVC, os: windows-latest,   flags: -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -GNinja,          version: ninja --version && cl}
+        buildType: ["Debug", "Release"]
+
+    name: Analyze on ${{ matrix.platform.name }} - ${{ matrix.buildType }}
+
+    runs-on: ${{ matrix.platform.os }}
+
+    steps:
+
+    - name: Install SFML dependencies (Linux)
+      if: matrix.platform.os == 'ubuntu-latest'
+      run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+    
+    - name: Update llvm (Linux)
+      if: matrix.platform.os == 'ubuntu-latest'
+      run: |
+        sudo apt remove '^llvm-*'
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 16
+
+    - name: Rename llvm tools (Linux)
+      if: matrix.platform.os == 'ubuntu-latest'
+      run: |
+        sudo apt install clang-tidy-16
+        sudo mv /usr/bin/clang-tidy-16  /usr/bin/clang-tidy
+        sudo mv /usr/bin/clang-16       /usr/bin/clang
+        sudo mv /usr/bin/clang++-16     /usr/bin/clang++  
+
+    - name: Install MinGW (Windows)
+      if: matrix.platform.os == 'windows-latest' && !contains(matrix.platform.name, 'MSVC')
+      run: |
+        curl -Lo mingw64.zip https://github.com/brechtsanders/winlibs_mingw/releases/download/12.2.0-16.0.0-10.0.0-msvcrt-r5/winlibs-x86_64-posix-seh-gcc-12.2.0-llvm-16.0.0-mingw-w64msvcrt-10.0.0-r5.zip
+        unzip -qq -d "C:\Program Files" mingw64.zip
+        echo "C:\Program Files\mingw64\bin" >> $GITHUB_PATH
+
+    - name: Install MSVC
+      if: contains(matrix.platform.name, 'MSVC')
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Check tools version
+      run: ${{ matrix.platform.version }} && clang-tidy --version
+
+    - name: Checkout source
+      uses: actions/checkout@v4
+    
+    - name: Configure
+      run: |
+        git submodule update --init --recursive --remote
+        cmake --preset check ${{ matrix.platform.flags }} -DCMAKE_BUILD_TYPE=${{ matrix.buildType }}
+    
+    - name: Build
+      run: cmake --build build/check -j
