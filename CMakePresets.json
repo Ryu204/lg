@@ -21,7 +21,8 @@
             "binaryDir": "build/check",
             "cacheVariables": {
                 "stay_CLANG_TIDY": "ON",
-                "lg_CLANG_TIDY": "ON"
+                "lg_CLANG_TIDY": "ON",
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         }
     ]
