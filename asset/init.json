@@ -1,0 +1,9 @@
+{
+  "scene": "asset/data",
+  "window": {
+     "height":400,
+     "name":"Stay v0.1",
+     "updatesPerSec":120.0,
+     "width":700
+  }
+}

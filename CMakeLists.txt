@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(extern/stay)
+add_subdirectory(extern/LDtkLoader)
 
 file(GLOB_RECURSE
     lg_source
@@ -24,4 +25,8 @@ if (lg_CLANG_TIDY)
 endif()
 
 add_executable(lg ${lg_source})
-target_link_libraries(lg PRIVATE stay)
+target_link_libraries(lg PRIVATE 
+    "$<LINK_LIBRARY:WHOLE_ARCHIVE,stay>" 
+    LDtkLoader)
+
+file(COPY asset DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
