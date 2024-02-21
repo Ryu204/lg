@@ -21,7 +21,7 @@
             "binaryDir": "build/check",
             "cacheVariables": {
                 "stay_CLANG_TIDY": "ON",
-                "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/source/*.hpp;--extra-arg=/EHsc"
+                "lg_CLANG_TIDY": "ON"
             }
         }
     ]
