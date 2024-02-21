@@ -26,7 +26,7 @@ endif()
 
 add_executable(lg ${lg_source})
 target_link_libraries(lg PRIVATE 
-    "$<LINK_LIBRARY:WHOLE_ARCHIVE,stay>" 
+    stay
     LDtkLoader)
 
 file(COPY asset DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
