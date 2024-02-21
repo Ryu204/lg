@@ -13,5 +13,15 @@ file(GLOB_RECURSE
     "source/*"
 )
 
+option (lg_CLANG_TIDY "Use clang-tidy analyzer" OFF)
+if (lg_CLANG_TIDY)
+    set(CMAKE_CXX_CLANG_TIDY "clang-tidy"
+        "--header-filter=${CMAKE_CURRENT_SOURCE_DIR}/source/*.hpp"
+        "--config-file=${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy")
+    if (MSVC)
+        list(APPEND CMAKE_CXX_CLANG_TIDY "--extra-arg=/EHsc")
+    endif()
+endif()
+
 add_executable(lg ${lg_source})
 target_link_libraries(lg PRIVATE stay)

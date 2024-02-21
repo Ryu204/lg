@@ -1,23 +1,27 @@
 {
-    "version": 3,
+    "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
         "minor": 27
     },
+    "include": [
+        "extern/stay/CMakePresets.json"
+    ],
     "configurePresets" : [
         {
-            "name": "base",
-            "binaryDir": "build/base",
+            "name": "main",
+            "inherits": "base",
+            "binaryDir": "build/main",
             "cacheVariables": {
             }
         },
         {
             "name": "check",
-            "inherits": "base",
+            "inherits": "main",
             "binaryDir": "build/check",
             "cacheVariables": {
                 "stay_CLANG_TIDY": "ON",
-                "CMAKE_CXX_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/source/*.hpp;--extra-arg=/EHsc"
+                "lg_CLANG_TIDY": "ON"
             }
         }
     ]

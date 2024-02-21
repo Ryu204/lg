@@ -54,10 +54,10 @@ jobs:
     - name: Configure
       run: |
         git submodule update --init --recursive --remote
-        cmake --preset base ${{ matrix.platform.flags }} -DCMAKE_BUILD_TYPE=${{ matrix.buildType }}
+        cmake --preset main ${{ matrix.platform.flags }} -DCMAKE_BUILD_TYPE=${{ matrix.buildType }}
     
     - name: Build
-      run: cmake --build build/base -j
+      run: cmake --build build/main -j
   
   lint:
 
