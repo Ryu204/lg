@@ -1,4 +1,4 @@
 [submodule "extern/stay"]
     path = extern/stay
 	url = https://github.com/Ryu204/stay.git
-	branch = lib
+	branch = main
