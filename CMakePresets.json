@@ -13,6 +13,7 @@
             "inherits": "base",
             "binaryDir": "build/main",
             "cacheVariables": {
+                "stay_BUILD_EDITOR": "ON"
             }
         },
         {
