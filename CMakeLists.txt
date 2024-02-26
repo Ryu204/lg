@@ -11,7 +11,9 @@ add_subdirectory(extern/LDtkLoader)
 file(GLOB_RECURSE
     lg_source
     CONFIGURE_DEPENDS
-    "source/*"
+    "source/component/*"
+    "source/loader/*"
+    "source/system/*"
 )
 
 option (lg_CLANG_TIDY "Use clang-tidy analyzer" OFF)
@@ -24,14 +26,14 @@ if (lg_CLANG_TIDY)
     endif()
 endif()
 
-add_executable(lg ${lg_source})
+add_executable(lg ${lg_source} "source/main.cpp")
 target_link_libraries(lg PRIVATE 
     stay
     LDtkLoader)
+file(COPY asset/stay DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(editor ${lg_source})
+add_executable(editor ${lg_source} "source/editor.cpp")
 target_link_libraries(editor PRIVATE
     stay_editor
     LDtkLoader)
-
-file(COPY asset DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY asset/editor DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/asset)
