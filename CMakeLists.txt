@@ -29,4 +29,9 @@ target_link_libraries(lg PRIVATE
     stay
     LDtkLoader)
 
+add_executable(editor ${lg_source})
+target_link_libraries(editor PRIVATE
+    stay_editor
+    LDtkLoader)
+
 file(COPY asset DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
