@@ -1,7 +1,7 @@
 [submodule "extern/stay"]
     path = extern/stay
 	url = https://github.com/Ryu204/stay.git
-	branch = hot-fix
+	branch = main
 [submodule "extern/LDtkLoader"]
 	path = extern/LDtkLoader
 	url = https://github.com/Madour/LDtkLoader.git
