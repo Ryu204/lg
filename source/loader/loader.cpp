@@ -1,8 +1,6 @@
 #include "loader.hpp"
 
-#include <stay/graphics/render.hpp>
-#include <stay/physics/collider.hpp>
-#include <stay/physics/joint.hpp>
+#include <stay/components.hpp>
 #include "../component/dash.hpp"
 #include "../component/hook.hpp"
 #include "../component/player.hpp"
@@ -28,6 +26,9 @@ namespace stay
 
         const auto& objects = level.getLayer("entities");
         loadPlayer(root, objects);
+
+        const auto& setttings = level.getLayer("settings");
+        loadSettings(root, setttings);
     }
 
     void Loader::loadTileset(Node* parent, const ldtk::Layer& layer) const
@@ -124,6 +125,23 @@ namespace stay
             "player", playerRect, Vector2{0.5F, 0.5F}
         };
         skin->addComponent<Render>(Color{0xFFFFFFFF}, size, -2, skinTexture);
+    }
+
+    void Loader::loadSettings(Node* parent, const ldtk::Layer& layer) const
+    {
+        for (const auto& entity : layer.allEntities())
+        {
+            if (entity.getName() == "cameraController")
+            {
+                auto node = parent->createChild();
+                node->addComponent<CameraController>(entity.getField<float>("height").value());
+                auto tf = node->globalTransform();
+                tf.setPosition(toWorldPosition(Vector2::from(entity.getWorldPosition())));
+                node->setGlobalTransform(tf);
+            }
+            else
+                assert(true && "Unknown entity name");
+        }   
     }
 
     Vector2 Loader::toWorldPosition(const Vector2& filePosition) const

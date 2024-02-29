@@ -25,5 +25,6 @@ namespace stay
             void loadTileset(Node* parent, const ldtk::Layer& layer) const;
             void loadColliders(Node* parent, const ldtk::Layer& layer) const;
             void loadPlayer(Node* parent, const ldtk::Layer& layer) const;
+            void loadSettings(Node* parent, const ldtk::Layer& layer) const;
     };
 } // namespace stay
