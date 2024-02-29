@@ -43,6 +43,41 @@
 	"defs": { "layers": [
 		{
 			"__type": "Entities",
+			"identifier": "settings",
+			"type": "Entities",
+			"uid": 98,
+			"doc": null,
+			"uiColor": null,
+			"gridSize": 16,
+			"guideGridWid": 0,
+			"guideGridHei": 0,
+			"displayOpacity": 1,
+			"inactiveOpacity": 0.6,
+			"hideInList": false,
+			"hideFieldsWhenInactive": true,
+			"canSelectWhenInactive": true,
+			"renderInWorldView": true,
+			"pxOffsetX": 0,
+			"pxOffsetY": 0,
+			"parallaxFactorX": 0,
+			"parallaxFactorY": 0,
+			"parallaxScaling": true,
+			"requiredTags": [],
+			"excludedTags": [],
+			"autoTilesKilledByOtherLayerUid": null,
+			"uiFilterTags": [],
+			"useAsyncRender": false,
+			"intGridValues": [],
+			"intGridValuesGroups": [],
+			"autoRuleGroups": [],
+			"autoSourceLayerDefUid": null,
+			"tilesetDefUid": null,
+			"tilePivotX": 0,
+			"tilePivotY": 0,
+			"biomeFieldUid": null
+		},
+		{
+			"__type": "Entities",
 			"identifier": "colliders",
 			"type": "Entities",
 			"uid": 42,
@@ -1567,41 +1602,6 @@
 			"tilePivotX": 0,
 			"tilePivotY": 0,
 			"biomeFieldUid": null
-		},
-		{
-			"__type": "Entities",
-			"identifier": "settings",
-			"type": "Entities",
-			"uid": 98,
-			"doc": null,
-			"uiColor": null,
-			"gridSize": 16,
-			"guideGridWid": 0,
-			"guideGridHei": 0,
-			"displayOpacity": 1,
-			"inactiveOpacity": 0.6,
-			"hideInList": false,
-			"hideFieldsWhenInactive": true,
-			"canSelectWhenInactive": true,
-			"renderInWorldView": true,
-			"pxOffsetX": 0,
-			"pxOffsetY": 0,
-			"parallaxFactorX": 0,
-			"parallaxFactorY": 0,
-			"parallaxScaling": true,
-			"requiredTags": [],
-			"excludedTags": [],
-			"autoTilesKilledByOtherLayerUid": null,
-			"uiFilterTags": [],
-			"useAsyncRender": false,
-			"intGridValues": [],
-			"intGridValuesGroups": [],
-			"autoRuleGroups": [],
-			"autoSourceLayerDefUid": null,
-			"tilesetDefUid": null,
-			"tilePivotX": 0,
-			"tilePivotY": 0,
-			"biomeFieldUid": null
 		}
 	], "entities": [
 		{
@@ -2485,6 +2485,48 @@
 			"fieldInstances": [{ "__identifier": "pixelsPerMeter", "__type": "Float", "__value": 100, "__tile": null, "defUid": 5, "realEditorValues": [] }],
 			"layerInstances": [
 				{
+					"__identifier": "settings",
+					"__type": "Entities",
+					"__cWid": 125,
+					"__cHei": 88,
+					"__gridSize": 16,
+					"__opacity": 1,
+					"__pxTotalOffsetX": 0,
+					"__pxTotalOffsetY": 0,
+					"__tilesetDefUid": null,
+					"__tilesetRelPath": null,
+					"iid": "bf78e3c0-b0a0-11ee-a742-1f0833dc67e6",
+					"levelId": 97,
+					"layerDefUid": 98,
+					"pxOffsetX": 0,
+					"pxOffsetY": 0,
+					"visible": true,
+					"optionalRules": [],
+					"intGridCsv": [],
+					"autoLayerTiles": [],
+					"seed": 7315227,
+					"overrideTilesetUid": null,
+					"gridTiles": [],
+					"entityInstances": [
+						{
+							"__identifier": "cameraController",
+							"__grid": [62,40],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": { "tilesetUid": 2, "x": 48, "y": 208, "w": 16, "h": 16 },
+							"__smartColor": "#2FA5BE",
+							"iid": "1b8334e0-b0a0-11ee-a742-773e33593080",
+							"width": 100,
+							"height": 100,
+							"defUid": 99,
+							"px": [1000,648],
+							"fieldInstances": [{ "__identifier": "height", "__type": "Float", "__value": 20, "__tile": null, "defUid": 101, "realEditorValues": [{ "id": "V_Float", "params": [20] }] }],
+							"__worldX": 1000,
+							"__worldY": 648
+						}
+					]
+				},
+				{
 					"__identifier": "colliders",
 					"__type": "Entities",
 					"__cWid": 100,
@@ -2510,7 +2552,7 @@
 					"entityInstances": [
 						{
 							"__identifier": "collider",
-							"__grid": [7,16],
+							"__grid": [6,21],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -2519,32 +2561,34 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 48,
-							"px": [150,330],
+							"px": [130,430],
 							"fieldInstances": [{ "__identifier": "chain", "__type": "Array<Point>", "__value": [
-								{ "cx": 13, "cy": 16 },
-								{ "cx": 0, "cy": 16 },
+								{ "cx": 12, "cy": 6 },
+								{ "cx": 1, "cy": 6 },
+								{ "cx": 0, "cy": 7 },
 								{ "cx": 0, "cy": 53 },
-								{ "cx": 22, "cy": 53 },
-								{ "cx": 23, "cy": 48 },
-								{ "cx": 47, "cy": 48 },
-								{ "cx": 48, "cy": 43 },
-								{ "cx": 72, "cy": 43 },
-								{ "cx": 73, "cy": 38 },
-								{ "cx": 99, "cy": 38 },
-								{ "cx": 99, "cy": 31 },
+								{ "cx": 99, "cy": 53 },
+								{ "cx": 99, "cy": 32 },
+								{ "cx": 98, "cy": 31 },
 								{ "cx": 24, "cy": 31 },
-								{ "cx": 23, "cy": 26 },
-								{ "cx": 19, "cy": 26 },
-								{ "cx": 18, "cy": 21 },
-								{ "cx": 14, "cy": 21 }
+								{ "cx": 23, "cy": 30 },
+								{ "cx": 23, "cy": 22 },
+								{ "cx": 22, "cy": 21 },
+								{ "cx": 14, "cy": 21 },
+								{ "cx": 13, "cy": 20 },
+								{ "cx": 13, "cy": 7 }
 							], "__tile": null, "defUid": 49, "realEditorValues": [
 								{
 									"id": "V_String",
-									"params": ["13,16"]
+									"params": ["12,6"]
 								},
 								{
 									"id": "V_String",
-									"params": ["0,16"]
+									"params": ["1,6"]
+								},
+								{
+									"id": "V_String",
+									"params": ["0,7"]
 								},
 								{
 									"id": "V_String",
@@ -2552,35 +2596,15 @@
 								},
 								{
 									"id": "V_String",
-									"params": ["22,53"]
+									"params": ["99,53"]
 								},
 								{
 									"id": "V_String",
-									"params": ["23,48"]
+									"params": ["99,32"]
 								},
 								{
 									"id": "V_String",
-									"params": ["47,48"]
-								},
-								{
-									"id": "V_String",
-									"params": ["48,43"]
-								},
-								{
-									"id": "V_String",
-									"params": ["72,43"]
-								},
-								{
-									"id": "V_String",
-									"params": ["73,38"]
-								},
-								{
-									"id": "V_String",
-									"params": ["99,38"]
-								},
-								{
-									"id": "V_String",
-									"params": ["99,31"]
+									"params": ["98,31"]
 								},
 								{
 									"id": "V_String",
@@ -2588,23 +2612,31 @@
 								},
 								{
 									"id": "V_String",
-									"params": ["23,26"]
+									"params": ["23,30"]
 								},
 								{
 									"id": "V_String",
-									"params": ["19,26"]
+									"params": ["23,22"]
 								},
 								{
 									"id": "V_String",
-									"params": ["18,21"]
+									"params": ["22,21"]
 								},
 								{
 									"id": "V_String",
 									"params": ["14,21"]
+								},
+								{
+									"id": "V_String",
+									"params": ["13,20"]
+								},
+								{
+									"id": "V_String",
+									"params": ["13,7"]
 								}
 							] }],
-							"__worldX": 150,
-							"__worldY": 330
+							"__worldX": 130,
+							"__worldY": 430
 						}
 					]
 				},
@@ -2627,9 +2659,9 @@
 					"visible": true,
 					"optionalRules": [],
 					"intGridCsv": [
-						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,
-						0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,
+						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,
+						0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,
+						0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,
 						0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 						0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,
@@ -2638,11 +2670,16 @@
 						
 					],
 					"autoLayerTiles": [
+						{ "px": [0,200], "src": [100,100], "f": 0, "t": 8, "d": [14,40], "a": 1 },
+						{ "px": [100,200], "src": [100,100], "f": 0, "t": 8, "d": [14,41], "a": 1 },
+						{ "px": [0,300], "src": [100,100], "f": 0, "t": 8, "d": [14,60], "a": 1 },
+						{ "px": [100,300], "src": [100,100], "f": 0, "t": 8, "d": [14,61], "a": 1 },
 						{ "px": [0,400], "src": [100,100], "f": 0, "t": 8, "d": [14,80], "a": 1 },
 						{ "px": [100,400], "src": [100,100], "f": 0, "t": 8, "d": [14,81], "a": 1 },
 						{ "px": [0,500], "src": [100,100], "f": 0, "t": 8, "d": [14,100], "a": 1 },
 						{ "px": [100,500], "src": [100,100], "f": 0, "t": 8, "d": [14,101], "a": 1 },
 						{ "px": [200,500], "src": [100,100], "f": 0, "t": 8, "d": [14,102], "a": 1 },
+						{ "px": [300,500], "src": [100,100], "f": 0, "t": 8, "d": [14,103], "a": 1 },
 						{ "px": [0,600], "src": [100,100], "f": 0, "t": 8, "d": [14,120], "a": 1 },
 						{ "px": [100,600], "src": [100,100], "f": 0, "t": 8, "d": [14,121], "a": 1 },
 						{ "px": [200,600], "src": [100,100], "f": 0, "t": 8, "d": [14,122], "a": 1 },
@@ -2678,10 +2715,13 @@
 						{ "px": [900,800], "src": [400,0], "f": 0, "t": 4, "d": [28,169], "a": 1 },
 						{ "px": [400,900], "src": [400,0], "f": 0, "t": 4, "d": [28,184], "a": 1 },
 						{ "px": [200,400], "src": [400,100], "f": 0, "t": 11, "d": [16,82], "a": 1 },
-						{ "px": [300,500], "src": [400,100], "f": 0, "t": 11, "d": [16,103], "a": 1 },
 						{ "px": [400,600], "src": [400,100], "f": 0, "t": 11, "d": [16,124], "a": 1 },
-						{ "px": [0,300], "src": [100,0], "f": 0, "t": 1, "d": [17,60], "a": 1 },
-						{ "px": [100,300], "src": [100,0], "f": 0, "t": 1, "d": [17,61], "a": 1 },
+						{ "px": [200,200], "src": [200,100], "f": 0, "t": 9, "d": [18,42], "a": 1 },
+						{ "px": [200,300], "src": [200,100], "f": 0, "t": 9, "d": [18,62], "a": 1 },
+						{ "px": [400,500], "src": [200,100], "f": 0, "t": 9, "d": [18,104], "a": 1 },
+						{ "px": [0,100], "src": [100,0], "f": 0, "t": 1, "d": [17,20], "a": 1 },
+						{ "px": [100,100], "src": [100,0], "f": 0, "t": 1, "d": [17,21], "a": 1 },
+						{ "px": [300,400], "src": [100,0], "f": 0, "t": 1, "d": [17,83], "a": 1 },
 						{ "px": [500,600], "src": [100,0], "f": 0, "t": 1, "d": [17,125], "a": 1 },
 						{ "px": [600,600], "src": [100,0], "f": 0, "t": 1, "d": [17,126], "a": 1 },
 						{ "px": [700,600], "src": [100,0], "f": 0, "t": 1, "d": [17,127], "a": 1 },
@@ -2714,9 +2754,8 @@
 						{ "px": [100,1000], "src": [100,200], "f": 0, "t": 15, "d": [20,201], "a": 1 },
 						{ "px": [200,1000], "src": [100,200], "f": 0, "t": 15, "d": [20,202], "a": 1 },
 						{ "px": [300,1000], "src": [100,200], "f": 0, "t": 15, "d": [20,203], "a": 1 },
-						{ "px": [200,300], "src": [200,0], "f": 0, "t": 2, "d": [15,62], "a": 1 },
-						{ "px": [300,400], "src": [200,0], "f": 0, "t": 2, "d": [15,83], "a": 1 },
-						{ "px": [400,500], "src": [200,0], "f": 0, "t": 2, "d": [15,104], "a": 1 },
+						{ "px": [200,100], "src": [200,0], "f": 0, "t": 2, "d": [15,22], "a": 1 },
+						{ "px": [400,400], "src": [200,0], "f": 0, "t": 2, "d": [15,84], "a": 1 },
 						{ "px": [1400,800], "src": [200,200], "f": 0, "t": 16, "d": [22,174], "a": 1 },
 						{ "px": [900,900], "src": [200,200], "f": 0, "t": 16, "d": [22,189], "a": 1 },
 						{ "px": [400,1000], "src": [200,200], "f": 0, "t": 16, "d": [22,204], "a": 1 }
@@ -2758,72 +2797,30 @@
 							"__tile": null,
 							"__smartColor": "#2F4DBE",
 							"iid": "8f225980-b0a0-11ee-9860-c15b4656d5a0",
-							"width": 80,
-							"height": 80,
+							"width": 96,
+							"height": 96,
 							"defUid": 74,
 							"px": [760,360],
 							"fieldInstances": [
-								{ "__identifier": "moveStrength", "__type": "Float", "__value": 15, "__tile": null, "defUid": 75, "realEditorValues": [] },
-								{ "__identifier": "jumpHeight", "__type": "Float", "__value": 8, "__tile": null, "defUid": 76, "realEditorValues": [] },
-								{ "__identifier": "oppositeScale", "__type": "Float", "__value": 4, "__tile": null, "defUid": 82, "realEditorValues": [] },
-								{ "__identifier": "airScale", "__type": "Float", "__value": 0, "__tile": null, "defUid": 84, "realEditorValues": [] },
-								{ "__identifier": "gravityScale", "__type": "Float", "__value": 3, "__tile": null, "defUid": 77, "realEditorValues": [] },
-								{ "__identifier": "bulletSpeed", "__type": "Float", "__value": 12, "__tile": null, "defUid": 78, "realEditorValues": [] },
-								{ "__identifier": "bulletCooldown", "__type": "Float", "__value": 1, "__tile": null, "defUid": 79, "realEditorValues": [] },
-								{ "__identifier": "HDamping", "__type": "Float", "__value": 0.05, "__tile": null, "defUid": 80, "realEditorValues": [] },
-								{ "__identifier": "friction", "__type": "Float", "__value": 0.3, "__tile": null, "defUid": 81, "realEditorValues": [] },
-								{ "__identifier": "damping", "__type": "Float", "__value": 0, "__tile": null, "defUid": 83, "realEditorValues": [] },
-								{ "__identifier": "ropeLength", "__type": "Float", "__value": 3, "__tile": null, "defUid": 85, "realEditorValues": [] },
-								{ "__identifier": "pullSpeed", "__type": "Float", "__value": 5, "__tile": null, "defUid": 87, "realEditorValues": [] },
-								{ "__identifier": "dashSpeed", "__type": "Float", "__value": 20, "__tile": null, "defUid": 92, "realEditorValues": [] },
-								{ "__identifier": "dashLength", "__type": "Float", "__value": 10, "__tile": null, "defUid": 93, "realEditorValues": [] },
-								{ "__identifier": "dashCooldown", "__type": "Float", "__value": 3, "__tile": null, "defUid": 94, "realEditorValues": [] },
-								{ "__identifier": "postBrake", "__type": "Float", "__value": 0.5, "__tile": null, "defUid": 95, "realEditorValues": [] }
+								{ "__identifier": "moveStrength", "__type": "Float", "__value": 10, "__tile": null, "defUid": 75, "realEditorValues": [{ "id": "V_Float", "params": [10] }] },
+								{ "__identifier": "jumpHeight", "__type": "Float", "__value": 2.8, "__tile": null, "defUid": 76, "realEditorValues": [{ "id": "V_Float", "params": [2.8] }] },
+								{ "__identifier": "oppositeScale", "__type": "Float", "__value": 5, "__tile": null, "defUid": 82, "realEditorValues": [{ "id": "V_Float", "params": [5] }] },
+								{ "__identifier": "airScale", "__type": "Float", "__value": 1.5, "__tile": null, "defUid": 84, "realEditorValues": [{ "id": "V_Float", "params": [1.5] }] },
+								{ "__identifier": "gravityScale", "__type": "Float", "__value": 3.5, "__tile": null, "defUid": 77, "realEditorValues": [{ "id": "V_Float", "params": [3.5] }] },
+								{ "__identifier": "bulletSpeed", "__type": "Float", "__value": 200, "__tile": null, "defUid": 78, "realEditorValues": [{ "id": "V_Float", "params": [200] }] },
+								{ "__identifier": "bulletCooldown", "__type": "Float", "__value": 0.3, "__tile": null, "defUid": 79, "realEditorValues": [{ "id": "V_Float", "params": [0.3] }] },
+								{ "__identifier": "HDamping", "__type": "Float", "__value": 0.5, "__tile": null, "defUid": 80, "realEditorValues": [{ "id": "V_Float", "params": [0.5] }] },
+								{ "__identifier": "friction", "__type": "Float", "__value": 0.05, "__tile": null, "defUid": 81, "realEditorValues": [{ "id": "V_Float", "params": [0.05] }] },
+								{ "__identifier": "damping", "__type": "Float", "__value": 0, "__tile": null, "defUid": 83, "realEditorValues": [{ "id": "V_Float", "params": [0] }] },
+								{ "__identifier": "ropeLength", "__type": "Float", "__value": 15, "__tile": null, "defUid": 85, "realEditorValues": [{ "id": "V_Float", "params": [15] }] },
+								{ "__identifier": "pullSpeed", "__type": "Float", "__value": 30, "__tile": null, "defUid": 87, "realEditorValues": [{ "id": "V_Float", "params": [30] }] },
+								{ "__identifier": "dashSpeed", "__type": "Float", "__value": 50, "__tile": null, "defUid": 92, "realEditorValues": [{ "id": "V_Float", "params": [50] }] },
+								{ "__identifier": "dashLength", "__type": "Float", "__value": 2.5, "__tile": null, "defUid": 93, "realEditorValues": [{ "id": "V_Float", "params": [2.5] }] },
+								{ "__identifier": "dashCooldown", "__type": "Float", "__value": 0.6, "__tile": null, "defUid": 94, "realEditorValues": [{ "id": "V_Float", "params": [0.6] }] },
+								{ "__identifier": "postBrake", "__type": "Float", "__value": 0.05, "__tile": null, "defUid": 95, "realEditorValues": [{ "id": "V_Float", "params": [0.05] }] }
 							],
 							"__worldX": 760,
 							"__worldY": 360
-						}
-					]
-				},
-				{
-					"__identifier": "settings",
-					"__type": "Entities",
-					"__cWid": 125,
-					"__cHei": 88,
-					"__gridSize": 16,
-					"__opacity": 1,
-					"__pxTotalOffsetX": 0,
-					"__pxTotalOffsetY": 0,
-					"__tilesetDefUid": null,
-					"__tilesetRelPath": null,
-					"iid": "bf78e3c0-b0a0-11ee-a742-1f0833dc67e6",
-					"levelId": 97,
-					"layerDefUid": 98,
-					"pxOffsetX": 0,
-					"pxOffsetY": 0,
-					"visible": true,
-					"optionalRules": [],
-					"intGridCsv": [],
-					"autoLayerTiles": [],
-					"seed": 7315227,
-					"overrideTilesetUid": null,
-					"gridTiles": [],
-					"entityInstances": [
-						{
-							"__identifier": "cameraController",
-							"__grid": [62,40],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": { "tilesetUid": 2, "x": 48, "y": 208, "w": 16, "h": 16 },
-							"__smartColor": "#2FA5BE",
-							"iid": "1b8334e0-b0a0-11ee-a742-773e33593080",
-							"width": 100,
-							"height": 100,
-							"defUid": 99,
-							"px": [1000,648],
-							"fieldInstances": [{ "__identifier": "height", "__type": "Float", "__value": 10, "__tile": null, "defUid": 101, "realEditorValues": [{ "id": "V_Float", "params": [10] }] }],
-							"__worldX": 1000,
-							"__worldY": 648
 						}
 					]
 				}
