@@ -74,14 +74,17 @@ namespace stay
         const auto& playerList = layer.getEntitiesByName("player");
         assert(playerList.size() == 1 && "exactly 1 player must present");
         const auto& player = playerList.front().get();
+
+        const auto& colliderEntity = player.getField<ldtk::EntityRef>("collider").value();
         const auto position = toWorldPosition(Vector2::from(player.getPosition()));
+        const auto colliderOffset = toWorldPosition(Vector2::from(colliderEntity->getPosition())) - position;
 
         auto* playerNode = parent->createChild();
         
         playerNode->addComponent<phys::RigidBody>(position, 0.F, phys::BodyType::DYNAMIC);
         phys::Material light{0.1F};
-        const auto size = Vector2{static_cast<float>(player.getSize().x) / 1.15F, player.getSize().y} / mDetail.pixelsPerMeter;
-        auto& playerBody = playerNode->addComponent<phys::Collider>(phys::Circle{Vector2{}, size.x / 2.F / 1.2F}, light);
+        const auto colliderSize = Vector2::from(colliderEntity->getSize()) / mDetail.pixelsPerMeter;
+        auto& playerBody = playerNode->addComponent<phys::Collider>(phys::Circle{colliderOffset, colliderSize.x / 2.F}, light);
         playerBody.setLayer("Player");
 
         auto& stats = playerNode->addComponent<Player>();
@@ -112,19 +115,21 @@ namespace stay
         skinBody.setFixedRotation(true);
 
         const phys::Material playerMaterial{1.F, player.getField<float>("friction").value(), 0.F};
-        const phys::Box skinShape{Vector2{}, size};
+        const phys::Box skinShape{colliderOffset, colliderSize};
         auto& skinCollider = skin->addComponent<phys::Collider>(skinShape, playerMaterial);
         skinCollider.setLayer("Player");
-        skin->addComponent<phys::Joint>().start(phys::JointInfo{playerNode->entity(), false, phys::Revolute{position}});
+        skin->addComponent<phys::Joint>().start(phys::JointInfo{playerNode->entity(), false, phys::Revolute{position + colliderOffset}});
 
-        const auto playerRect = [&player](){
-            const auto& tmp = player.getTextureRect();
-            return Rect{Vector2{tmp.x, tmp.y}, Vector2{tmp.x + tmp.width, tmp.y + tmp.height}};
-        }();
+        const auto fileTextureRect = player.getTextureRect();
+        const Rect playerRect{
+            Vector2{fileTextureRect.x, fileTextureRect.y}, 
+            Vector2{fileTextureRect.x + fileTextureRect.width, fileTextureRect.y + fileTextureRect.height}
+        };
+        const auto playerRenderSize = Vector2::from(player.getSize()) / mDetail.pixelsPerMeter;
         TextureInfo skinTexture{
             "player", playerRect, Vector2{0.5F, 0.5F}
         };
-        skin->addComponent<Render>(Color{0xFFFFFFFF}, size, -2, skinTexture);
+        skin->addComponent<Render>(Color{0xFFFFFFFF}, playerRenderSize, -2, skinTexture);
     }
 
     void Loader::loadSettings(Node* parent, const ldtk::Layer& layer) const
