@@ -15,7 +15,7 @@ namespace stay
     PlayerSystem::PlayerSystem(ecs::Manager* manager)
         : ecs::System(manager)
         , ecs::StartSystem(0)
-        , ecs::InputSystem(0)
+        , ecs::InputSystem(-1)
         , ecs::UpdateSystem(0)
         , mEntered(false)
     {}

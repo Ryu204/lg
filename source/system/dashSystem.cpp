@@ -25,7 +25,7 @@ namespace stay
             auto* playerNode = dash.getNode();
             auto& body = *player.movementBody;
             if (isOnRope(playerNode) || dash.activated || !dash.canDash)
-                return;
+                continue;
 
             dash.left = body.getVelocity().x < 0.F;
             dash.canDash = false;
