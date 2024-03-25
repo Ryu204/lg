@@ -29,6 +29,9 @@ namespace stay
 
         const auto& objects = level.getLayer("entities");
         loadPlayer(root, objects, settings);
+
+        const auto& bgrEntities = level.getLayer("backgroundEntities");
+        loadBackgroundEntities(root, bgrEntities);
     }
 
     void Loader::loadTileset(Node* parent, const ldtk::Layer& layer) const
@@ -134,7 +137,12 @@ namespace stay
         TextureInfo skinTexture{
             "player", playerRect, Vector2{0.5F, 0.5F}
         };
-        skin->addComponent<Render>(Color{0xFFFFFFFF}, playerRenderSize, -2, skinTexture);
+        skin->addComponent<Render>(
+            Color{0xFFFFFFFF}, 
+            playerRenderSize, 
+            1, /* Player is only rendered behind main tileset */
+            skinTexture
+        );
     }
 
     Loader::Settings Loader::loadSettings(Node* parent, const ldtk::Layer& layer) const
@@ -157,6 +165,33 @@ namespace stay
         }   
         assert(false && "should not reach here");
         return Settings{};
+    }
+
+    void Loader::loadBackgroundEntities(Node* parent, const ldtk::Layer& layer) const 
+    {
+        for (const auto& entity : layer.allEntities()) 
+        {
+            const auto size = Vector2::from(entity.getSize()) / mDetail.pixelsPerMeter;
+            auto* node = parent->createChild();
+            node->localTransform().setPosition(toWorldPosition(Vector2::from(entity.getPosition())));
+
+            const auto fileTextureRect = entity.getTextureRect();
+            const Rect textureRect{
+                Vector2{fileTextureRect.x, fileTextureRect.y}, 
+                Vector2{fileTextureRect.x + fileTextureRect.width, fileTextureRect.y + fileTextureRect.height}
+            };
+            TextureInfo info{ 
+                entity.getTags().front(),  
+                textureRect,
+                Vector2{0, 0}
+            };
+            node->addComponent<Render>(
+                Color{0xFFFFFFFF},
+                size,
+                10, /* z-order really big because it's background */
+                info
+            );
+        }
     }
 
     Vector2 Loader::toWorldPosition(const Vector2& filePosition) const

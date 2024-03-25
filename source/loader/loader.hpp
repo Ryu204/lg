@@ -26,6 +26,7 @@ namespace stay
             Vector2 toWorldPosition(const Vector2& filePosition) const;
 
             void loadTileset(Node* parent, const ldtk::Layer& layer) const;
+            void loadBackgroundEntities(Node* parent, const ldtk::Layer& layer) const;
             void loadColliders(Node* parent, const ldtk::Layer& layer) const;
             void loadPlayer(Node* parent, const ldtk::Layer& layer, Settings settings) const;
             Settings loadSettings(Node* parent, const ldtk::Layer& layer) const;
