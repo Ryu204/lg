@@ -24,11 +24,11 @@ namespace stay
         const auto& colliders = level.getLayer("colliders");
         loadColliders(root, colliders);
 
-        const auto& objects = level.getLayer("entities");
-        loadPlayer(root, objects);
+        const auto& setttingsLayer = level.getLayer("settings");
+        const auto settings = loadSettings(root, setttingsLayer);
 
-        const auto& setttings = level.getLayer("settings");
-        loadSettings(root, setttings);
+        const auto& objects = level.getLayer("entities");
+        loadPlayer(root, objects, settings);
     }
 
     void Loader::loadTileset(Node* parent, const ldtk::Layer& layer) const
@@ -38,11 +38,14 @@ namespace stay
         for (const auto& tile : layer.allTiles())
         {
             auto* entity = parent->createChild();
-            Transform tf{toWorldPosition(Vector2::from(tile.getPosition()))};
+            Transform tf{toWorldPosition(Vector2::from(tile.getPosition())) + Vector2{tileSize / 2.F * (vectorRight + vectorDown)}};
             entity->setGlobalTransform(tf);
+            entity->localTransform().setScale(
+                Vector2{ -2.F * (float)tile.flipX + 1.F, -2.F * (float)tile.flipY + 1.F }
+            );
             const auto tRect = tile.getTextureRect();
             const Rect textureRect{Vector2{tRect.x, tRect.y}, Vector2{tRect.x + tRect.width, tRect.y + tRect.height}};
-            const Vector2 pivot{0, 0};
+            const Vector2 pivot{0.5F, 0.5F};
             TextureInfo info{ "mossy", textureRect, pivot };
             entity->addComponent<Render>(Color{0xFFFFFFFF}, Vector2{tileSize, tileSize}, 0, info);
         }
@@ -69,7 +72,7 @@ namespace stay
         }
     }
 
-    void Loader::loadPlayer(Node* parent, const ldtk::Layer& layer) const 
+    void Loader::loadPlayer(Node* parent, const ldtk::Layer& layer, Settings settings) const 
     {
         const auto& playerList = layer.getEntitiesByName("player");
         assert(playerList.size() == 1 && "exactly 1 player must present");
@@ -92,6 +95,8 @@ namespace stay
         stats.jumpHeight = player.getField<float>("jumpHeight").value();
         stats.oppositeScale = player.getField<float>("oppositeScale").value();
         stats.airScale = player.getField<float>("airScale").value();
+        stats.camera = settings.camera;
+        stats.cameraLerpPerFrame = player.getField<float>("cameraLerpPerFrame").value();
 
         auto& hook = playerNode->addComponent<Hook>();
         hook.props.speed = player.getField<float>("bulletSpeed").value();
@@ -132,7 +137,7 @@ namespace stay
         skin->addComponent<Render>(Color{0xFFFFFFFF}, playerRenderSize, -2, skinTexture);
     }
 
-    void Loader::loadSettings(Node* parent, const ldtk::Layer& layer) const
+    Loader::Settings Loader::loadSettings(Node* parent, const ldtk::Layer& layer) const
     {
         for (const auto& entity : layer.allEntities())
         {
@@ -143,10 +148,15 @@ namespace stay
                 auto tf = node->globalTransform();
                 tf.setPosition(toWorldPosition(Vector2::from(entity.getWorldPosition())));
                 node->setGlobalTransform(tf);
+                return Settings{
+                    node->entity()
+                };
             }
-            else
-                assert(true && "Unknown entity name");
+            else 
+                assert(false && "Unknown entity name");
         }   
+        assert(false && "should not reach here");
+        return Settings{};
     }
 
     Vector2 Loader::toWorldPosition(const Vector2& filePosition) const
