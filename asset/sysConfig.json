@@ -2,7 +2,14 @@
     "RenderSystem": {
         "textures": {
             "mossy": "mossy.png",
-            "player": "cat.png"
+            "player": "cat.png",
+            "vine1": "vine1.png",
+            "vine2": "vine2.png",
+            "vine4": "vine4.png",
+            "rocks": "cave.png",
+            "decoration1": "decoration.png",
+            "decoration2": "decoration2.png",
+            "mushroom": "mushroom.png"
         }
     },
     "PhysicsSystem": {
