@@ -96,10 +96,9 @@ namespace stay
         auto& stats = playerNode->addComponent<Player>();
         stats.moveStrength = player.getField<float>("moveStrength").value();
         stats.jumpHeight = player.getField<float>("jumpHeight").value();
-        stats.oppositeScale = player.getField<float>("oppositeScale").value();
-        stats.airScale = player.getField<float>("airScale").value();
         stats.camera = settings.camera;
         stats.cameraLerpPerFrame = player.getField<float>("cameraLerpPerFrame").value();
+        stats.airDampingReduction = player.getField<float>("airDampingReduction").value();
 
         auto& hook = playerNode->addComponent<Hook>();
         hook.props.speed = player.getField<float>("bulletSpeed").value();

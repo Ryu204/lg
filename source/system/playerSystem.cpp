@@ -33,9 +33,11 @@ namespace stay
             auto* skin = player.getNode()->getChildren().at(0);
             player.movementBody = &skin->getComponent<phys::RigidBody>();
             auto& collider = skin->getComponent<phys::Collider>();
+            const auto horizontalDamping = player.movementBody->horizontalDamping();
             collider.OnCollisionEnter.addEventListener(
-                [&player = player](phys::Collision& contact)
+                [&player = player, horizontalDamping](phys::Collision& contact)
                 {
+                    player.movementBody->setHorizontalDamping(horizontalDamping);
                     if (contact.normal.y < 0.F)
                     {
                         player.canJump = true;
@@ -44,8 +46,11 @@ namespace stay
                 }
             );
             collider.OnCollisionExit.addEventListener(
-                [&player = player](phys::Collision& contact) 
+                [&player = player, horizontalDamping](phys::Collision& contact) 
                 {
+                    player.movementBody->setHorizontalDamping(
+                        horizontalDamping * player.airDampingReduction
+                    );
                     if (contact.normal.y < 0.F)
                     {
                         player.onGround = false;
@@ -100,14 +105,6 @@ namespace stay
             if (player.onDash)
                 continue;
             auto force = Vector2::from(dir * player.moveStrength);
-            const auto vel = player.movementBody->getVelocity();
-            const auto isLeft = vel.x < 5.F;
-            const auto isRight = vel.x > -5.F;
-            const bool mayIncreaseForce = (dir.x < 0.F && isRight) || (dir.x > 0.F && isLeft);
-            if (mayIncreaseForce && !player.onRope)
-            {
-                force = force * (player.onGround ? player.oppositeScale : player.airScale);
-            }
             player.movementBody->applyForce(force);
         }
     }

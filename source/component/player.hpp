@@ -9,10 +9,7 @@ namespace stay
         // Base force to move with controls
         float moveStrength{};
         float jumpHeight{};
-        // Set this to a higher-than-one float to create snappy movement
-        float oppositeScale{};
-        // Same but apply to airbone moments
-        float airScale{};
+        float airDampingReduction{};
         // Camera reference
         ecs::Entity camera{};
         float cameraLerpPerFrame{};
@@ -24,6 +21,6 @@ namespace stay
         phys::RigidBody* movementBody;
         phys::RigidBody* hookBody;
 
-        COMPONENT(Player, moveStrength, jumpHeight, oppositeScale, airScale, camera);
+        COMPONENT(Player, moveStrength, jumpHeight, camera);
     };
 } // namespace stay
