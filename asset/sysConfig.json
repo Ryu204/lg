@@ -9,7 +9,8 @@
             "rocks": "cave.png",
             "decoration1": "decoration.png",
             "decoration2": "decoration2.png",
-            "mushroom": "mushroom.png"
+            "mushroom": "mushroom.png",
+            "background": "background.png"
         }
     },
     "PhysicsSystem": {

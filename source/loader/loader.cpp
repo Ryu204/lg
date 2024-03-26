@@ -151,7 +151,12 @@ namespace stay
             if (entity.getName() == "cameraController")
             {
                 auto node = parent->createChild();
-                node->addComponent<CameraController>(entity.getField<float>("height").value());
+                const auto height = entity.getField<float>("height").value();
+                const Rect bounds{
+                    toWorldPosition(Vector2::from(entity.getPosition())),
+                    toWorldPosition(Vector2::from(entity.getPosition()) + Vector2::from(entity.getSize()))
+                };
+                node->addComponent<CameraController>(height, bounds);
                 auto tf = node->globalTransform();
                 tf.setPosition(toWorldPosition(Vector2::from(entity.getWorldPosition())));
                 node->setGlobalTransform(tf);
