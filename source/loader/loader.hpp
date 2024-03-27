@@ -17,7 +17,7 @@ namespace stay
             struct Detail 
             {
                 float pixelsPerMeter;
-                Vector2 worldOffset;
+                Vector2 levelOffset;
             } mDetail;
             struct Settings {
                 ecs::Entity camera;
@@ -28,7 +28,9 @@ namespace stay
             void loadTileset(Node* parent, const ldtk::Layer& layer) const;
             void loadBackgroundEntities(Node* parent, const ldtk::Layer& layer) const;
             void loadColliders(Node* parent, const ldtk::Layer& layer) const;
-            void loadPlayer(Node* parent, const ldtk::Layer& layer, Settings settings) const;
-            Settings loadSettings(Node* parent, const ldtk::Layer& layer) const;
+            void loadPlayer(Node* parent, const ldtk::Entity& playerEntity, const Settings& settings) const;
+            void loadEntities(Node* parent, const ldtk::Layer& layer) const;
+            void loadCameraRegions(Node* parent, const ldtk::Layer& layer) const;
+            void loadPlayerAndSettings(Node* parent, const ldtk::Layer& layer) const;
     };
 } // namespace stay

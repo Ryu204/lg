@@ -4,7 +4,6 @@
 
 #include <stay/physics/collider.hpp>
 #include <stay/graphics/cameraController.hpp>
-#include <stay/utility/math.hpp>
 
 namespace 
 {
@@ -19,9 +18,7 @@ namespace stay
         , ecs::StartSystem{0}
         , ecs::InputSystem{-1}
         , ecs::UpdateSystem{0}
-        , ecs::PostUpdateSystem{0}
         , mEntered{false}
-        , mCameraController{nullptr}
     {}
 
     void PlayerSystem::start()
@@ -57,7 +54,6 @@ namespace stay
                     }
                 }
             );
-            mCameraController = Node::getNode(player.camera);
         }
     }
 
@@ -106,21 +102,6 @@ namespace stay
                 continue;
             auto force = Vector2::from(dir * player.moveStrength);
             player.movementBody->applyForce(force);
-        }
-    }
-
-    void PlayerSystem::postUpdate(float dt) 
-    {
-        for (const auto& [entity, player] : mManager->getRegistryRef().view<Player>().each()) 
-        {
-            auto tf = player.movementBody->getNode()->globalTransform();
-            const auto position = utils::lerp<Vector2>(
-                mCameraController->globalTransform().getPosition(),
-                tf.getPosition(),
-                player.cameraLerpPerFrame * dt
-            );
-            tf.setPosition(position);
-            mCameraController->setGlobalTransform(tf);
         }
     }
 } // namespace stay

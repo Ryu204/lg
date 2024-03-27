@@ -10,9 +10,6 @@ namespace stay
         float moveStrength{};
         float jumpHeight{};
         float airDampingReduction{};
-        // Camera reference
-        ecs::Entity camera{};
-        float cameraLerpPerFrame{};
 
         bool canJump{false};
         bool onGround{false};
@@ -21,6 +18,6 @@ namespace stay
         phys::RigidBody* movementBody;
         phys::RigidBody* hookBody;
 
-        COMPONENT(Player, moveStrength, jumpHeight, camera);
+        COMPONENT(Player, moveStrength, jumpHeight);
     };
 } // namespace stay
