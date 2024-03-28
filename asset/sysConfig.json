@@ -10,7 +10,8 @@
             "decoration1": "decoration.png",
             "decoration2": "decoration2.png",
             "mushroom": "mushroom.png",
-            "background": "background.png"
+            "background": "background.png",
+            "black": "black.png"
         }
     },
     "PhysicsSystem": {
