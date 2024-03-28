@@ -79,9 +79,11 @@ namespace stay
     void Loader::loadColliders(Node* parent, const ldtk::Layer& layer) const 
     {
         const auto tileSize = static_cast<float>(layer.getCellSize());
+        const phys::Material mat{1.F, 1.F, 0.F};
         for (const auto& collider : layer.allEntities())
         {
-            assert(collider.getName() == "collider" && "not a collider entity");
+            if (collider.getName() != "chainCollider")
+                continue;
             std::vector<Vector2> chainShape;
             const auto position = toWorldPosition(Vector2::from(collider.getWorldPosition()));
             for (const auto& point : collider.getArrayField<ldtk::IntPoint>("chain"))
@@ -91,9 +93,18 @@ namespace stay
                 chainShape.emplace_back(pointPosition - position);
             }
             auto* entity = parent->createChild();
-            phys::Material mat{1.F, 1.F, 0.F};
             entity->addComponent<phys::RigidBody>(position);
             entity->addComponent<phys::Collider>(phys::Chain{std::move(chainShape)}, mat);
+        }
+        for (const auto& collider : layer.allEntities())
+        {
+            if (collider.getName() != "boxCollider")
+                continue;
+            auto* node = parent->createChild();
+            const auto fileSize = Vector2::from(collider.getSize());
+            const Vector2 position = toWorldPosition(fileSize / 2.F + Vector2::from(collider.getWorldPosition()));
+            node->addComponent<phys::RigidBody>(position);
+            node->addComponent<phys::Collider>(phys::Box{Vector2{}, Vector2::from(fileSize / mDetail.pixelsPerMeter)}, mat);
         }
     }
 
@@ -104,15 +115,16 @@ namespace stay
 
     void Loader::loadPlayer(Node* parent, const ldtk::Entity& playerEntity, const Settings& settings) const
     {
-        const auto& colliderEntity = playerEntity.getField<ldtk::EntityRef>("collider").value();
         const auto position = toWorldPosition(Vector2::from(playerEntity.getWorldPosition()));
-        const auto colliderOffset = toWorldPosition(Vector2::from(colliderEntity->getWorldPosition())) - position;
+
+        const auto& colliderEntity = playerEntity.getField<ldtk::EntityRef>("collider").value();
+        const auto colliderSize = Vector2::from(colliderEntity->getSize()) / mDetail.pixelsPerMeter;
+        const auto colliderOffset = toWorldPosition(Vector2::from(colliderEntity->getSize()) / 2.F + Vector2::from(colliderEntity->getWorldPosition())) - position;
 
         auto* playerNode = parent->createChild();
         
         playerNode->addComponent<phys::RigidBody>(position, 0.F, phys::BodyType::DYNAMIC);
         phys::Material light{0.1F};
-        const auto colliderSize = Vector2::from(colliderEntity->getSize()) / mDetail.pixelsPerMeter;
         auto& playerBody = playerNode->addComponent<phys::Collider>(phys::Circle{colliderOffset, colliderSize.x / 2.F}, light);
         playerBody.setLayer("Player");
 
