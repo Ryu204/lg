@@ -11,7 +11,8 @@
             "decoration2": "decoration2.png",
             "mushroom": "mushroom.png",
             "background": "background.png",
-            "black": "black.png"
+            "black": "black.png",
+            "trigger": "trigger.png"
         }
     },
     "PhysicsSystem": {

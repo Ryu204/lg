@@ -13,6 +13,17 @@
 #include <utility>
 #include <algorithm>
 
+namespace
+{
+    stay::Rect rectFromFile(const ldtk::IntRect& rect)
+    {
+        return stay::Rect{
+            stay::Vector2{rect.x, rect.y},
+            stay::Vector2{rect.x + rect.width, rect.y + rect.height}
+        };
+    }
+} // namespace
+
 namespace stay
 {
     void Loader::load(std::filesystem::path&& filename, Node* root)
@@ -71,8 +82,7 @@ namespace stay
             entity->localTransform().setScale(
                 Vector2{ -2.F * (float)tile.flipX + 1.F, -2.F * (float)tile.flipY + 1.F }
             );
-            const auto tRect = tile.getTextureRect();
-            const Rect textureRect{Vector2{tRect.x, tRect.y}, Vector2{tRect.x + tRect.width, tRect.y + tRect.height}};
+            const Rect textureRect = rectFromFile(tile.getTextureRect());
             const Vector2 pivot{0.5F, 0.5F};
             TextureInfo info{ "mossy", textureRect, pivot };
             entity->addComponent<Render>(Color{0xFFFFFFFF}, Vector2{tileSize, tileSize}, 0, info);
@@ -143,11 +153,7 @@ namespace stay
             const auto pingpong = loop && platform->getField<bool>("pingpong").value();
             node->addComponent<PathFollow>(std::move(path), tolerance, speed, loop, pingpong);
 
-            const auto fileTextureRect = platform->getTextureRect();
-            const Rect rect{
-                Vector2{fileTextureRect.x, fileTextureRect.y}, 
-                Vector2{fileTextureRect.x + fileTextureRect.width, fileTextureRect.y + fileTextureRect.height}
-            };
+            const Rect rect = rectFromFile(platform->getTextureRect());
             const auto& textureId = platform->getField<std::string>("textureId").value();
             const auto renderSize = Vector2::from(platform->getSize()) / mDetail.pixelsPerMeter;
             node->addComponent<Render>(
@@ -174,6 +180,16 @@ namespace stay
                 auto& trigger = node->addComponent<PlatformTrigger>();
                 trigger.data.targetPlatform = platform;
                 trigger.start();
+
+                const TextureInfo texture{
+                    "trigger", 
+                    rectFromFile(entity.getTextureRect()), 
+                    Vector2{0.5F, 0.5F}
+                };
+                node->addComponent<Render>(
+                    Color{0xFFFFFFFF},
+                    size, -1, texture
+                );
             }
         }
     }
@@ -230,11 +246,7 @@ namespace stay
         skinCollider.setLayer("Player");
         skin->addComponent<phys::Joint>().start(phys::JointInfo{playerNode->entity(), false, phys::Revolute{position + colliderOffset}});
 
-        const auto fileTextureRect = playerEntity.getTextureRect();
-        const Rect playerRect{
-            Vector2{fileTextureRect.x, fileTextureRect.y}, 
-            Vector2{fileTextureRect.x + fileTextureRect.width, fileTextureRect.y + fileTextureRect.height}
-        };
+        const Rect playerRect = rectFromFile(playerEntity.getTextureRect());
         const auto playerRenderSize = Vector2::from(playerEntity.getSize()) / mDetail.pixelsPerMeter;
         TextureInfo skinTexture{
             "player", playerRect, Vector2{0.5F, 0.5F}
@@ -287,11 +299,7 @@ namespace stay
             auto* node = parent->createChild();
             node->localTransform().setPosition(toWorldPosition(Vector2::from(entity.getWorldPosition())));
 
-            const auto fileTextureRect = entity.getTextureRect();
-            const Rect textureRect{
-                Vector2{fileTextureRect.x, fileTextureRect.y}, 
-                Vector2{fileTextureRect.x + fileTextureRect.width, fileTextureRect.y + fileTextureRect.height}
-            };
+            const Rect textureRect = rectFromFile(entity.getTextureRect());
             assert(entity.getTags().size() > 0);
             TextureInfo info{ 
                 entity.getTags().front(),  

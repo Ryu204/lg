@@ -4,7 +4,8 @@
 #include <stay/physics/rigidBody.hpp>
 #include <stay/physics/collider.hpp>
 
-#include "../component/pathFollow.hpp"
+#include "pathFollow.hpp"
+#include "suicide.hpp"
 
 namespace stay
 {
@@ -49,6 +50,7 @@ namespace stay
                     auto& platformBody = status.targetPlatform->getNode()->getComponent<phys::RigidBody>();
                     status.targetPlatform->setBody(&platformBody);
                     status.triggered = true;
+                    getNode()->addComponent<Suicide>();
                 }
             );
         }
