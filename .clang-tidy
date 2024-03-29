@@ -2,6 +2,7 @@ Checks:
   clang-diagnostic-*
   clang-analyzer-*
   cppcoreguidelines-*
+  -cppcoreguidelines-special-member-functions
   modernize-*
   -modernize-use-trailing-return-type
   -modernize-use-nodiscard

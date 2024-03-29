@@ -5,10 +5,13 @@
 #include "../component/hook.hpp"
 #include "../component/player.hpp"
 #include "../component/cameraFollow.hpp"
+#include "../component/pathFollow.hpp"
+#include "../component/platformTrigger.hpp"
 #include "../component/cameraRegion.hpp"
 #include "../component/playerDebug.hpp"
 
 #include <utility>
+#include <algorithm>
 
 namespace stay
 {
@@ -110,7 +113,69 @@ namespace stay
 
     void Loader::loadEntities(Node* parent, const ldtk::Layer& layer) const 
     {
-        // TODO: add entity loading
+        const auto tileSize = static_cast<float>(layer.getCellSize());
+        const auto loadPlatform = [this, parent, tileSize](const ldtk::EntityRef platform) -> ecs::Entity {
+            static const phys::Material mat{1.F, 1.F};
+            const auto& tags = platform->getTags();
+            assert(std::find(tags.begin(), tags.end(), "movable") != tags.end());
+            auto* node = parent->createChild();
+            const auto position = toWorldPosition(Vector2::from(platform->getWorldPosition()));
+            const auto& collider = platform->getField<ldtk::EntityRef>("collider").value();
+            const auto& colliderSize = Vector2::from(collider->getSize()) / mDetail.pixelsPerMeter;
+            const auto colliderOffset = 
+                toWorldPosition(Vector2::from(collider->getWorldPosition()))
+                + Vector2{colliderSize.x / 2.F, -colliderSize.y / 2.F}
+                - position;
+
+            node->addComponent<phys::RigidBody>(position, 0.F, phys::BodyType::KINEMATIC);
+            node->addComponent<phys::Collider>(phys::Box{colliderOffset, colliderSize}, mat);
+
+            std::vector<Vector2> path{};
+            for (const auto& point : platform->getArrayField<ldtk::IntPoint>("trajectory"))
+            {
+                const Vector2 gridPosition = Vector2::from(point.value()) + Vector2{0.5F, 0.5F};
+                const auto pointPosition = toWorldPosition(mDetail.levelOffset + gridPosition * tileSize);
+                path.push_back(pointPosition);
+            }
+            const auto tolerance = platform->getField<float>("tolerance").value();
+            const auto speed = platform->getField<float>("speed").value();
+            const auto loop = platform->getField<bool>("loop").value();
+            const auto pingpong = loop && platform->getField<bool>("pingpong").value();
+            node->addComponent<PathFollow>(std::move(path), tolerance, speed, loop, pingpong);
+
+            const auto fileTextureRect = platform->getTextureRect();
+            const Rect rect{
+                Vector2{fileTextureRect.x, fileTextureRect.y}, 
+                Vector2{fileTextureRect.x + fileTextureRect.width, fileTextureRect.y + fileTextureRect.height}
+            };
+            const auto& textureId = platform->getField<std::string>("textureId").value();
+            const auto renderSize = Vector2::from(platform->getSize()) / mDetail.pixelsPerMeter;
+            node->addComponent<Render>(
+                Color{0xFFFFFFFF}, renderSize, 0,
+                textureId, rect
+            );
+            return node->entity();
+        };
+        for (const auto& entity : layer.allEntities())
+        {
+            if (entity.getName() == "trigger")
+            {
+                const auto& platformEntity = entity.getField<ldtk::EntityRef>("platform").value();
+                const auto platform = loadPlatform(platformEntity);
+                const auto position = toWorldPosition(Vector2::from(entity.getWorldPosition()));
+                const auto size = Vector2::from(entity.getSize()) / mDetail.pixelsPerMeter;
+                
+                auto* node = parent->createChild();
+                node->addComponent<phys::RigidBody>(position);
+                auto& collider = node->addComponent<phys::Collider>(phys::Box{Vector2{}, size});
+                collider.connect();
+                collider.setTrigger(true);
+
+                auto& trigger = node->addComponent<PlatformTrigger>();
+                trigger.data.targetPlatform = platform;
+                trigger.start();
+            }
+        }
     }
 
     void Loader::loadPlayer(Node* parent, const ldtk::Entity& playerEntity, const Settings& settings) const
