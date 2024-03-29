@@ -151,7 +151,7 @@ namespace stay
             const auto& textureId = platform->getField<std::string>("textureId").value();
             const auto renderSize = Vector2::from(platform->getSize()) / mDetail.pixelsPerMeter;
             node->addComponent<Render>(
-                Color{0xFFFFFFFF}, renderSize, 0,
+                Color{0xFFFFFFFF}, renderSize, 1,
                 textureId, rect
             );
             return node->entity();
@@ -242,7 +242,7 @@ namespace stay
         skin->addComponent<Render>(
             Color{0xFFFFFFFF}, 
             playerRenderSize, 
-            1, /* Player is only rendered behind main tileset */
+            5,
             skinTexture
         );
     }
