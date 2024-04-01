@@ -4,11 +4,10 @@
 
 namespace stay
 {
+    // For testing purposes
     struct PlayerDebug : public ecs::Component
     {
-            PlayerDebug() = default;
-            COMPONENT(PlayerDebug, foo);
-        private:
-            int foo{};
+            COMPONENT(PlayerDebug, points);
+            std::vector<Vector2> points{};
     };
 } // namespace stay
