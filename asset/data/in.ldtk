@@ -11,7 +11,7 @@
 	"iid": "a01570b0-3b70-11ee-83e9-29a381a47e5f",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 475239,
-	"nextUid": 256,
+	"nextUid": 258,
 	"identifierStyle": "Free",
 	"toc": [],
 	"worldLayout": "Free",
@@ -4944,9 +4944,47 @@
 			"maxCount": 0,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
-			"fieldDefs": []
+			"pivotX": 0.5,
+			"pivotY": 0.5,
+			"fieldDefs": [
+				{
+					"identifier": "rotateSpeed",
+					"doc": null,
+					"__type": "Float",
+					"uid": 256,
+					"type": "F_Float",
+					"isArray": false,
+					"canBeNull": false,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": { "id": "V_Float", "params": [90] },
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
 		}
 	], "tilesets": [
 		{
@@ -6660,6 +6698,22 @@
 							"fieldInstances": [],
 							"__worldX": 1020,
 							"__worldY": 860
+						},
+						{
+							"__identifier": "frog",
+							"__grid": [123,83],
+							"__pivot": [0.5,0.5],
+							"__tags": ["enemy"],
+							"__tile": null,
+							"__smartColor": "#A22633",
+							"iid": "b9573780-d7b0-11ee-80ee-993a36f4c794",
+							"width": 300,
+							"height": 300,
+							"defUid": 229,
+							"px": [1235,835],
+							"fieldInstances": [{ "__identifier": "rotateSpeed", "__type": "Float", "__value": 90, "__tile": null, "defUid": 256, "realEditorValues": [] }],
+							"__worldX": 1235,
+							"__worldY": 835
 						}
 					]
 				},
@@ -10790,24 +10844,7 @@
 					"seed": 6088848,
 					"overrideTilesetUid": null,
 					"gridTiles": [],
-					"entityInstances": [
-						{
-							"__identifier": "frog",
-							"__grid": [55,60],
-							"__pivot": [0,0],
-							"__tags": ["enemy"],
-							"__tile": null,
-							"__smartColor": "#A22633",
-							"iid": "e2970ef0-d7b0-11ee-9b24-61a2de24c3a8",
-							"width": 300,
-							"height": 300,
-							"defUid": 229,
-							"px": [550,600],
-							"fieldInstances": [],
-							"__worldX": -5550,
-							"__worldY": 1800
-						}
-					]
+					"entityInstances": []
 				},
 				{
 					"__identifier": "cameraRegions",

@@ -9,6 +9,7 @@
 #include "../component/platformTrigger.hpp"
 #include "../component/cameraRegion.hpp"
 #include "../component/playerDebug.hpp"
+#include "../enemy/frog.hpp"
 
 #include <utility>
 #include <algorithm>
@@ -190,6 +191,20 @@ namespace stay
                     Color{0xFFFFFFFF},
                     size, -1, texture
                 );
+            }
+            else if (entity.getName() == "frog")
+            {
+                auto* node = parent->createChild();
+
+                const auto pos = toWorldPosition(Vector2::from(entity.getWorldPosition()));
+                node->addComponent<phys::RigidBody>(pos, 0.F, phys::BodyType::KINEMATIC);
+
+                const Vector2 size = Vector2::from(entity.getSize()) / mDetail.pixelsPerMeter;
+                node->addComponent<phys::Collider>(phys::Box{Vector2{}, size});
+
+                const auto rotateSpeed = entity.getField<float>("rotateSpeed").value();
+                const Vector2 speed{2, 0};
+                node->addComponent<Frog>(rotateSpeed, speed);
             }
         }
     }
